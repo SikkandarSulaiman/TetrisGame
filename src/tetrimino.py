@@ -1,10 +1,12 @@
 import random
 
+from config_read import *
+
 class Piece:
 
 	shapes = {
 		'I': [
-				list(map(list, '        \n[][][][]\n        \n        '.split('\n'))),
+				list(map(list, I_FACE_1)),
 				list(map(list, '  []    \n  []    \n  []    \n  []    '.split('\n')))
 			],
 		'O': [

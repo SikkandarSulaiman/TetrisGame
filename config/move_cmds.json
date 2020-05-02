@@ -1,0 +1,8 @@
+{
+	"cmd_rotate":    1,
+	"cmd_left":      2,
+	"cmd_right":     3,
+	"cmd_down":      4,
+	"cmd_game_over": 5,
+	"cmd_quit":      6
+}
