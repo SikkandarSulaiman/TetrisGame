@@ -4,21 +4,17 @@ from config_read import *
 
 class Piece:
 
+
 	shapes = {
-		'I': [
-				list(map(list, I_FACE_1)),
-				list(map(list, '  []    \n  []    \n  []    \n  []    '.split('\n')))
-			],
-		'O': [
-			list(map(list, '        \n  [][]  \n  [][]  \n        '.split('\n')))
-		],
-		'J': [
-		  list(map(list, '    []  \n    []  \n  [][]  \n        '.split('\n'))),
-		  list(map(list, '        \n  []    \n  [][][]\n        '.split('\n'))),
-		  list(map(list, '  [][]  \n  []    \n  []    \n        '.split('\n'))),
-		  list(map(list, '        \n  [][][]\n      []\n        '.split('\n')))  
-		]
+		'I': [*[[list(s) for s in i] for i in I_FACES]],
+		'J': [*[[list(s) for s in i] for i in J_FACES]],
+		'L': [*[[list(s) for s in i] for i in L_FACES]],
+		'O': [*[[list(s) for s in i] for i in O_FACES]],
+		'S': [*[[list(s) for s in i] for i in S_FACES]],
+		'Z': [*[[list(s) for s in i] for i in Z_FACES]],
+		'T': [*[[list(s) for s in i] for i in T_FACES]],
 	}
+	print(shapes['I'])
 
 	def __init__(self, shape=None, orient=None):
 		self.shape_list = self.shapes[random.choice(list(self.shapes.keys()))]

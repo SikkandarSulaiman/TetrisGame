@@ -18,7 +18,7 @@ class PieceFitter:
 	def spawn_new_piece(self):
 		self.active_piece = Piece()
 		x = self.x = 0
-		y = self.y = (self.field.width - TETRIMINO_WIDTH) + 1
+		y = self.y = (self.field.width - TETRIMINO_WIDTH)//2 + 1
 		if self.check_piece_fit(x, y):
 			return True
 		return False

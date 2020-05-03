@@ -3,8 +3,6 @@
 	"line_display_ms": 500,
 	"field_height": 30,
 	"field_width": 32,
-	"tetrimino_width": 8,
-	"tetrimino_height": 4,
 	"field_place_x": 3,
 	"field_place_y": 23,
 	"char_field_wall": "#",
