@@ -14,7 +14,6 @@ class Piece:
 		'Z': [*[[list(s) for s in i] for i in Z_FACES]],
 		'T': [*[[list(s) for s in i] for i in T_FACES]],
 	}
-	print(shapes['I'])
 
 	def __init__(self, shape=None, orient=None):
 		self.shape_list = self.shapes[random.choice(list(self.shapes.keys()))]
@@ -37,4 +36,10 @@ class Piece:
 			self.orient = len(self.shape_list) - 1
 			self.map = self.shape_list[self.orient]
 
-
+	def print_piece(self, win, x, y):
+		for i, row in enumerate(self.map, x):
+			rc = ''.join(row)
+			for y_off, c in enumerate(rc, y):
+				if c != CHAR_EMPTY_SPACE: 
+					win.addstr(i, y_off, c)
+		win.refresh()

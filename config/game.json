@@ -5,9 +5,14 @@
 	"field_width": 32,
 	"field_place_x": 3,
 	"field_place_y": 23,
-	"char_field_wall": "#",
+	"scoreboard_height": 6,
+	"scoreboard_width": 11,
+	"scoreboard_place_x": 3,
+	"scoreboard_place_y": 60,
+	"char_panel_wall": "#",
 	"char_empty_space": " ",
 	"char_line": "=",
 	"char_tet_block": "[]",
+	"scoreboard_text": "-SCORE-",
 	"magic_word": "TETRIS"
 }

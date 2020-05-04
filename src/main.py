@@ -3,7 +3,8 @@ import json
 import curses
 
 from fitter import PieceFitter
-from fields import Field
+from panels import Field
+from panels import ScoreBoard
 from config_read import *
 
 def main(stdscr):
@@ -12,16 +13,20 @@ def main(stdscr):
 	stdscr.timeout(INITIAL_SPEED_MS)
 	curses.curs_set(0)
 	
-	pf = PieceFitter(Field(width=FIELD_WIDTH, height=FIELD_HEIGHT), stdscr)
+	pf = PieceFitter(Field(FIELD_WIDTH, FIELD_HEIGHT), stdscr)
+	sb = ScoreBoard(SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT)
+	sb.print_panel(stdscr)
 	pf.spawn_new_piece()
+	pf.print_field_piece()
 
 	while True:
-		pf.print_field_piece()
 		key = stdscr.getch()
 		dir = input_key_map.get(key, CMD_QUIT)
 
 		if dir == CMD_QUIT or (x:=pf.move_piece(dir)) == CMD_GAME_OVER:
 			break
+		pf.print_field_piece()
+		sb.update_score(stdscr)
 
 	stdscr.refresh()
 
