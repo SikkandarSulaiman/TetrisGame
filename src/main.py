@@ -2,6 +2,7 @@ import json
 
 import curses
 
+from score import ScoreManager
 from fitter import PieceFitter
 from panels import Field
 from panels import ScoreBoard
@@ -13,11 +14,16 @@ def main(stdscr):
 	stdscr.timeout(INITIAL_SPEED_MS)
 	curses.curs_set(0)
 	
-	pf = PieceFitter(Field(FIELD_WIDTH, FIELD_HEIGHT), stdscr)
+	tetris_field = Field(FIELD_WIDTH, FIELD_HEIGHT)
+	pf = PieceFitter(tetris_field)
 	sb = ScoreBoard(SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT)
-	sb.print_panel(stdscr)
+	ScoreManager().set_scoreboard(sb)
+
 	pf.spawn_new_piece()
-	pf.print_field_piece()
+	
+	tetris_field.print_panel(stdscr)
+	pf.active_piece.print_piece_in_field(stdscr, tetris_field)
+	sb.print_panel(stdscr)
 
 	while True:
 		key = stdscr.getch()
@@ -25,8 +31,9 @@ def main(stdscr):
 
 		if dir == CMD_QUIT or (x:=pf.move_piece(dir)) == CMD_GAME_OVER:
 			break
-		pf.print_field_piece()
-		sb.update_score(stdscr)
+		tetris_field.print_panel(stdscr)
+		pf.active_piece.print_piece_in_field(stdscr, tetris_field)
+		sb.print_panel(stdscr)
 
 	stdscr.refresh()
 
@@ -35,6 +42,5 @@ if __name__ == '__main__':
 
 	NO_KEY_PRESS = -1
 	input_key_map[NO_KEY_PRESS] = CMD_DOWN
-	print(input_key_map)
 
 	curses.wrapper(main)

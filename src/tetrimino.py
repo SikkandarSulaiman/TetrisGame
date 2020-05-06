@@ -4,7 +4,6 @@ from config_read import *
 
 class Piece:
 
-
 	shapes = {
 		'I': [*[[list(s) for s in i] for i in I_FACES]],
 		'J': [*[[list(s) for s in i] for i in J_FACES]],
@@ -19,6 +18,8 @@ class Piece:
 		self.shape_list = self.shapes[random.choice(list(self.shapes.keys()))]
 		self.orient = random.randint(0, len(self.shape_list) - 1)
 		self.map = self.shape_list[self.orient]
+		self.x = 0
+		self.y = 0
 
 	def rotate(self):
 		try:
@@ -36,10 +37,10 @@ class Piece:
 			self.orient = len(self.shape_list) - 1
 			self.map = self.shape_list[self.orient]
 
-	def print_piece(self, win, x, y):
-		for i, row in enumerate(self.map, x):
+	def print_piece_in_field(self, win, field):
+		for i, row in enumerate(self.map, self.x + field.x):
 			rc = ''.join(row)
-			for y_off, c in enumerate(rc, y):
+			for y_off, c in enumerate(rc, self.y + field.y):
 				if c != CHAR_EMPTY_SPACE: 
 					win.addstr(i, y_off, c)
 		win.refresh()

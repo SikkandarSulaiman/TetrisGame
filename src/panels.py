@@ -74,7 +74,6 @@ class ScoreBoard(Panel):
 		self.map.append(list(CHAR_PANEL_WALL * self.width))
 		self.place_text_in_line(SCOREBOARD_TEXT, self.height//2-1)
 
-	def update_score(self, win):
-		self.place_text_in_line(str(ScoreManager().score), self.height//2+1)
-		self.print_panel(win)
+	def update_score(self, score):
+		self.place_text_in_line(str(score), self.height//2+1)
 		

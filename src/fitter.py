@@ -7,21 +7,15 @@ from config_read import *
 
 class PieceFitter:
 
-	def __init__(self, field, win):
-		self.win = win
+	def __init__(self, field):
 		self.field = field
-		self.x, self.y = 0, 0
 		self.active_piece = None
 		self.score_calc = ScoreManager()
-
-	def get_piece(self):
-		return (self.active_piece, self.x, self.y)
 	
 	def spawn_new_piece(self):
 		self.active_piece = Piece()
-		x = self.x = 0
-		y = self.y = (self.field.width - TETRIMINO_WIDTH)//2 + 1
-		if self.check_piece_fit(x, y):
+		self.active_piece.x, self.active_piece.y = 0, (self.field.width - TETRIMINO_WIDTH)//2 + 1
+		if self.check_piece_fit(self.active_piece.x, self.active_piece.y):
 			return True
 		return False
 
@@ -37,30 +31,30 @@ class PieceFitter:
 		return False
 
 	def place_piece_in_field(self):
-		for px, fx in enumerate(range(self.x, self.x + TETRIMINO_HEIGHT)):
-			for py, fy in enumerate(range(self.y, self.y + TETRIMINO_WIDTH)):
+		x, y = self.active_piece.x, self.active_piece.y
+		for px, fx in enumerate(range(x, x + TETRIMINO_HEIGHT)):
+			for py, fy in enumerate(range(y, y + TETRIMINO_WIDTH)):
 				if (pc := self.active_piece.map[px][py]) != CHAR_EMPTY_SPACE:
 					self.field.map[fx][fy] = pc
 
-	def print_field_piece(self):
-		self.field.print_panel(self.win)
-		self.active_piece.print_piece(self.win, FIELD_PLACE_X + self.x, FIELD_PLACE_Y + self.y)
-
 	def move_piece(self, dir):
+
 		if dir == CMD_ROTATE:
 			self.active_piece.rotate()
-			if self.check_piece_fit(self.x, self.y):
-				return self.active_piece, self.x, self.y
-			self.active_piece.rotate_rev()
+			if not self.check_piece_fit(self.active_piece.x, self.active_piece.y):
+				self.active_piece.rotate_rev()
+			return None
 
-		x, y = {
-			CMD_RIGHT: (self.x, self.y + 2),
-			CMD_LEFT: (self.x, self.y - 2),
-			CMD_DOWN: (self.x + 1, self.y),
-		}.get(dir, (self.x, self.y))
+		px, py = self.active_piece.x, self.active_piece.y
 
-		if self.check_piece_fit(x, y):
-			self.x, self.y = x, y
+		px, py = {
+			CMD_RIGHT: (px, py + 2),
+			CMD_LEFT: (px, py - 2),
+			CMD_DOWN: (px + 1, py),
+		}.get(dir, (px, py))
+
+		if self.check_piece_fit(px, py):
+			self.active_piece.x, self.active_piece.y = px, py
 		elif dir == CMD_DOWN:
 			self.score_calc.dropped_at_speed = 500
 			self.place_piece_in_field()
