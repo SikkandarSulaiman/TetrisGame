@@ -42,7 +42,8 @@ class Field(Panel):
 	def find_lines(self):
 		line_count = 0
 		for i, row in enumerate(self.map[:-1]):
-			if ' ' not in (line:=''.join(row)):
+			line = ''.join(row)
+			if ' ' not in line:
 				if line_count == 0:
 					line_start = i
 				line_count += 1

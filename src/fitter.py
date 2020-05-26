@@ -34,7 +34,8 @@ class PieceFitter:
 		x, y = self.active_piece.x, self.active_piece.y
 		for px, fx in enumerate(range(x, x + TETRIMINO_HEIGHT)):
 			for py, fy in enumerate(range(y, y + TETRIMINO_WIDTH)):
-				if (pc := self.active_piece.map[px][py]) != CHAR_EMPTY_SPACE:
+				pc = self.active_piece.map[px][py]
+				if pc != CHAR_EMPTY_SPACE:
 					self.field.map[fx][fy] = pc
 
 	def move_piece(self, dir):
@@ -58,9 +59,10 @@ class PieceFitter:
 		elif dir == CMD_DOWN:
 			self.score_calc.dropped_at_speed = 500
 			self.place_piece_in_field()
-			if lc := self.field.find_lines():
+			lc = self.field.find_lines()
+			if lc:
 				self.score_calc.lines_appeared = lc
-				self.field.print_panel(self.win)
+				# self.field.print_panel(self.win)
 				time.sleep(LINE_DISPLAY_MS / 1000)
 				self.field.clear_lines()
 			if not self.spawn_new_piece():

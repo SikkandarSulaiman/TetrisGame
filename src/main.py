@@ -29,7 +29,7 @@ def main(stdscr):
 		key = stdscr.getch()
 		dir = input_key_map.get(key, CMD_QUIT)
 
-		if dir == CMD_QUIT or (x:=pf.move_piece(dir)) == CMD_GAME_OVER:
+		if dir == CMD_QUIT or pf.move_piece(dir) == CMD_GAME_OVER:
 			break
 		tetris_field.print_panel(stdscr)
 		pf.active_piece.print_piece_in_field(stdscr, tetris_field)
