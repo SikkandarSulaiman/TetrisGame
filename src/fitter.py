@@ -8,9 +8,11 @@ from config_read import *
 class PieceFitter:
 
 	def __init__(self, field):
+		self.frr = False
 		self.field = field
 		self.active_piece = None
 		self.score_calc = ScoreManager()
+		self.move_piece_refresh = None
 	
 	def spawn_new_piece(self):
 		self.active_piece = Piece()
@@ -30,7 +32,7 @@ class PieceFitter:
 			return True
 		return False
 
-	def place_piece_in_field(self):
+	def attach_piece_to_map(self):
 		x, y = self.active_piece.x, self.active_piece.y
 		for px, fx in enumerate(range(x, x + TETRIMINO_HEIGHT)):
 			for py, fy in enumerate(range(y, y + TETRIMINO_WIDTH)):
@@ -46,7 +48,6 @@ class PieceFitter:
 			return None
 
 		px, py = self.active_piece.x, self.active_piece.y
-
 		px, py = {
 			CMD_RIGHT: (px, py + 2),
 			CMD_LEFT: (px, py - 2),
@@ -57,11 +58,21 @@ class PieceFitter:
 			self.active_piece.x, self.active_piece.y = px, py
 		elif dir == CMD_DOWN:
 			self.score_calc.dropped_at_speed = 500
-			self.place_piece_in_field()
+			self.attach_piece_to_map()
+			self.frr = True
+			self.move_piece_refresh = self._move_piece_spawn_new
 			if lc := self.field.find_lines():
 				self.score_calc.lines_appeared = lc
-				self.field.print_panel(self.win)
-				time.sleep(LINE_DISPLAY_MS / 1000)
-				self.field.clear_lines()
-			if not self.spawn_new_piece():
-				return CMD_GAME_OVER
+				self.move_piece_refresh = self._move_piece_indicate_lines
+
+	def _move_piece_indicate_lines(self):
+		time.sleep(LINE_DISPLAY_MS / 1000)
+		self.field.clear_lines()
+		self.frr = True
+		self.move_piece_refresh = self._move_piece_spawn_new
+
+	def _move_piece_spawn_new(self):
+		self.frr = False
+		self.move_piece_refresh = None
+		if not self.spawn_new_piece():
+			return CMD_GAME_OVER
