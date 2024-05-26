@@ -5,6 +5,9 @@ from fitter import PieceFitter
 from panels import Field
 from panels import ScoreBoard
 from config_read import *
+from ui_gamescreen_pyg import pygame_GameScreen
+
+from time import sleep
 
 def cur_main(stdscr):
 	stdscr.clear()
@@ -47,39 +50,33 @@ if __name__ == '__main__':
 	NO_KEY_PRESS = -1
 	input_key_map[NO_KEY_PRESS] = CMD_DOWN
 
-	pygame.init()
-	game_screen = pygame.display.set_mode([1500, 1500])
+	scr = pygame_GameScreen()
 
-	# Run until the user asks to quit
+	tetris_field = Field(FIELD_WIDTH, FIELD_HEIGHT)
+	pf = PieceFitter(tetris_field)
+	sb = ScoreBoard(SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT)
+	ScoreManager().set_scoreboard(sb)
+
+	pf.spawn_new_piece()
+	# scr.print_panel(tetris_field)
+	# scr.print_piece_inside_panel(pf.active_piece, tetris_field)
+	# pf.active_piece.print_piece_in_field(scr, tetris_field)
+	# sb.print_panel(scr)
+
 	running = True
 	while running:
 
-		# Did the user click the window close button?
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				running = False
+		if scr.is_quit_event():
+			running = False
 
-		# Fill the background with white
-		game_screen.fill((0, 0, 0))
+		pf.move_piece(CMD_DOWN)
 
-		tetris_field = Field(FIELD_WIDTH, FIELD_HEIGHT)
+		scr.print_panel(tetris_field)
+		scr.print_piece_over_panel(pf.active_piece, tetris_field)
+		scr.refresh()
+		# sleep(1)
 
-		font = pygame.font.SysFont('Monospace', 44)
-		pos_x, pos_y = 0, 0
-		for line in tetris_field.map:
-			line = ''.join(line)
-			word_surface = font.render(line, 0, pygame.Color('white'))
-			text_w, text_h = word_surface.get_size()
-			game_screen.blit(word_surface, (0,pos_y))
-			pos_y += text_h
-
-		# Flip the display
-		pygame.display.flip()
-
-	# Done! Time to quit.
-	pygame.quit()
-
-	# curses.wrapper(cur_main)
+	scr.quit()
 
 
 

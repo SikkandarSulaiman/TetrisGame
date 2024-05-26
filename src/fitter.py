@@ -15,7 +15,7 @@ class PieceFitter:
 	
 	def spawn_new_piece(self):
 		self.active_piece = Piece()
-		self.active_piece.x, self.active_piece.y = 0, (self.field.width - TETRIMINO_WIDTH)//2 + 1
+		self.active_piece.x, self.active_piece.y = (self.field.width - TETRIMINO_WIDTH)//2 + 1, 0
 		if self.check_piece_fit(self.active_piece.x, self.active_piece.y):
 			return True
 		return False
@@ -39,7 +39,6 @@ class PieceFitter:
 					self.field.map[fx][fy] = pc
 
 	def move_piece(self, dir):
-
 		if dir == CMD_ROTATE:
 			self.active_piece.rotate()
 			if not self.check_piece_fit(self.active_piece.x, self.active_piece.y):
