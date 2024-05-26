@@ -1,6 +1,5 @@
 import itertools
 
-from score import ScoreManager
 from config_read import *
 
 class Panel:

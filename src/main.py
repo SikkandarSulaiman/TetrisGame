@@ -1,6 +1,4 @@
-import json
-
-import curses
+import pygame
 
 from score import ScoreManager
 from fitter import PieceFitter
@@ -8,7 +6,7 @@ from panels import Field
 from panels import ScoreBoard
 from config_read import *
 
-def main(stdscr):
+def cur_main(stdscr):
 	stdscr.clear()
 	stdscr.nodelay(1)
 	stdscr.timeout(INITIAL_SPEED_MS)
@@ -49,4 +47,40 @@ if __name__ == '__main__':
 	NO_KEY_PRESS = -1
 	input_key_map[NO_KEY_PRESS] = CMD_DOWN
 
-	curses.wrapper(main)
+	pygame.init()
+	game_screen = pygame.display.set_mode([1500, 1500])
+
+	# Run until the user asks to quit
+	running = True
+	while running:
+
+		# Did the user click the window close button?
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				running = False
+
+		# Fill the background with white
+		game_screen.fill((0, 0, 0))
+
+		tetris_field = Field(FIELD_WIDTH, FIELD_HEIGHT)
+
+		font = pygame.font.SysFont('Monospace', 44)
+		pos_x, pos_y = 0, 0
+		for line in tetris_field.map:
+			line = ''.join(line)
+			word_surface = font.render(line, 0, pygame.Color('white'))
+			text_w, text_h = word_surface.get_size()
+			game_screen.blit(word_surface, (0,pos_y))
+			pos_y += text_h
+
+		# Flip the display
+		pygame.display.flip()
+
+	# Done! Time to quit.
+	pygame.quit()
+
+	# curses.wrapper(cur_main)
+
+
+
+

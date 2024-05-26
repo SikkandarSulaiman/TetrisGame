@@ -1,7 +1,6 @@
 import time
 
 from tetrimino import Piece
-from panels import Field
 from score import ScoreManager
 from config_read import *
 
