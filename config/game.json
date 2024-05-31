@@ -10,7 +10,7 @@
 	"scoreboard_place_x": 3,
 	"scoreboard_place_y": 60,
 	"char_panel_wall": "#",
-	"char_empty_space": ".",
+	"char_empty_space": " ",
 	"char_line": "=",
 	"char_tet_block": "[]",
 	"scoreboard_text": "-SCORE-",

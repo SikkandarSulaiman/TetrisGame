@@ -16,7 +16,7 @@ class pygame_GameScreen:
 
     def is_quit_event(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if (event.type == pygame.QUIT) or (event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE):
                 return True
         return False
     

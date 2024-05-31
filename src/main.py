@@ -58,9 +58,8 @@ if __name__ == '__main__':
 	ScoreManager().set_scoreboard(sb)
 
 	pf.spawn_new_piece()
-	# scr.print_panel(tetris_field)
-	# scr.print_piece_inside_panel(pf.active_piece, tetris_field)
-	# pf.active_piece.print_piece_in_field(scr, tetris_field)
+	scr.print_panel(tetris_field)
+	# scr.print_piece_over_panel(pf.active_piece, tetris_field)
 	# sb.print_panel(scr)
 
 	running = True
@@ -72,9 +71,9 @@ if __name__ == '__main__':
 		pf.move_piece(CMD_DOWN)
 
 		scr.print_panel(tetris_field)
-		scr.print_piece_over_panel(pf.active_piece, tetris_field)
-		scr.refresh()
+		# scr.print_piece_over_panel(pf.active_piece, tetris_field)
 		# sleep(1)
+		scr.refresh()
 
 	scr.quit()
 
