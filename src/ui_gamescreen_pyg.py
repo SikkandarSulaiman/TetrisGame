@@ -6,7 +6,7 @@ from config_read import *
 class pygame_GameScreen:
 
     def __init__(self):
-        self. panel_list = []
+        self.panel_list = []
         pygame.init()
         self.screen = pygame.display.set_mode([1800, 1500])
         self.screen.fill((0, 0, 0))
@@ -24,19 +24,18 @@ class pygame_GameScreen:
         pygame.quit()
 
     def print_panel(self, panel, offset=None):
-        x_off, y_off = panel.x, panel.y
-        for y, line in enumerate(panel.map):
+        row_off, col_off = panel.row, panel.col
+        for col, line in enumerate(panel.map):
             line = ''.join(line)
             word_surface = self.font.render(line, 0, pygame.Color('white'))
-            _, text_h = word_surface.get_size()
-            self.screen.blit(word_surface, ((0+x_off)*self.fcw, (y+y_off)*self.fch))
-    
+            self.screen.blit(word_surface, ((0+row_off)*self.fcw, (col+col_off)*self.fch))
+
     def print_piece_over_panel(self, piece, panel):
-        for y, row in enumerate(piece.map):
+        for col, row in enumerate(piece.map):
             piece_row = ''.join(row)
             word_surface = self.font.render(piece_row, 0, pygame.Color('white'))
-            self.screen.blit(word_surface, ((piece.x + panel.x)*self.fcw, (y + piece.y + panel.y)*self.fch))
-            self.refresh()
+            self.screen.blit(word_surface, ((piece.row + panel.row)*self.fcw, (col + piece.col + panel.col)*self.fch))
 
     def refresh(self):
+        self.screen.fill((0,0,0))
         pygame.display.flip()
