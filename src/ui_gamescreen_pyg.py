@@ -60,6 +60,7 @@ class pygame_GameScreen:
         updated = False
         time_diff = 0
         last_time = time()
+
         while (not updated) and (time_diff < wait_ms):
             for event in self.get_events():
                 if event.type == pygame.KEYDOWN:
@@ -88,6 +89,11 @@ class pygame_GameScreen:
                     self.key_map[CMD_QUIT] = True
                     updated = True
             time_diff = (time() - last_time)*1000
+
+            if any(self.key_map.values()):
+                sleep(.1)
+                return True
+
             # sleep(.001)
         return updated
 
