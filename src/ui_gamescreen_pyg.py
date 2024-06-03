@@ -94,6 +94,6 @@ class pygame_GameScreen:
                 sleep(.1)
                 return True
 
-            # sleep(.001)
+            sleep(.001)
         return updated
 
