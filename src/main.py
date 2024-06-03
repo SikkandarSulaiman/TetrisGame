@@ -8,8 +8,6 @@ from panels import ScoreBoard
 from config_read import *
 from ui_gamescreen_pyg import pygame_GameScreen
 
-from time import time, sleep
-
 def cur_main(stdscr):
 	stdscr.clear()
 	stdscr.nodelay(1)
@@ -62,21 +60,20 @@ if __name__ == '__main__':
 	scr.print_panel(tetris_field)
 	# sb.print_panel(scr)
 
-	last_time = time()
 	running = True
 	while running:
 
-		cur_time = time()
-		time_diff_in_ms = (cur_time-last_time)*1000
-		if time_diff_in_ms < 50:
-			continue
-		last_time = time()
-
-		if scr.is_quit_event():
-			running = False
-
+		key_detected = scr.detect_input_keys(500)
 		if not pf.frr: # check Field Refresh Request
-			pf.move_piece(random.choice([CMD_DOWN]))
+			if not key_detected:
+				pf.move_piece(CMD_DOWN)
+			for k,v in scr.key_map.items():
+				if v:
+					if k == CMD_QUIT:
+						running = False
+						break
+					else:
+						pf.move_piece(k)
 		elif pf.move_piece_refresh() == CMD_GAME_OVER:
 			print('GAME OVER DETECTED')
 			break
