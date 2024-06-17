@@ -2,8 +2,10 @@ import os
 import json
 from pathlib import Path
 
-config_path = '../config'
+# config_path = '../config'
+config_path = './config'
 
+print(os.getcwd())
 for jsonfile in os.listdir(config_path):
 	with open(Path(config_path) / jsonfile, 'r') as jf:
 		jsondata = json.load(jf)

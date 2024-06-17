@@ -1,6 +1,5 @@
 import itertools
 
-from score import ScoreManager
 from config_read import *
 
 class Panel:
@@ -31,8 +30,8 @@ class Field(Panel):
 
 	def __init__(self, width, height):
 		super(Field, self).__init__(width, height)
-		self.x = FIELD_PLACE_X
-		self.y = FIELD_PLACE_Y
+		self.row = FIELD_PLACE_X
+		self.col = FIELD_PLACE_Y
 		self.create_panel()
 
 	def create_panel(self):
@@ -42,7 +41,7 @@ class Field(Panel):
 	def find_lines(self):
 		line_count = 0
 		for i, row in enumerate(self.map[:-1]):
-			if ' ' not in (line:=''.join(row)):
+			if CHAR_EMPTY_SPACE not in (line:=''.join(row)):
 				if line_count == 0:
 					line_start = i
 				line_count += 1

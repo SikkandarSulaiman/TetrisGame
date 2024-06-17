@@ -18,8 +18,8 @@ class Piece:
 		self.shape_list = self.shapes[random.choice(list(self.shapes.keys()))]
 		self.orient = random.randint(0, len(self.shape_list) - 1)
 		self.map = self.shape_list[self.orient]
-		self.x = 0
-		self.y = 0
+		self.row = 0
+		self.col = 0
 
 	def rotate(self):
 		try:
